@@ -6,6 +6,7 @@
   "scripts": {
     "start": "ts-node src/index",
     "dev": "ts-node-dev src/index",
+    "seed": "ts-node prisma/seed.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
