@@ -30,7 +30,7 @@ export class Service {
 
     const { password, ...userWithoutPassword } = user;
 
-    const token = await this.token.generate(userWithoutPassword);
+    const token = await this.token.generate({ user: userWithoutPassword });
 
     return {
       token,
@@ -53,11 +53,21 @@ export class Service {
 
     const { password, ...userWithoutPassword } = createdUser;
 
-    const token = await this.token.generate(userWithoutPassword);
+    const token = await this.token.generate({ user: userWithoutPassword });
 
     return {
       token,
       user: userWithoutPassword,
     };
+  }
+
+  public async verify(rawToken: string) {
+    try {
+      const [, token] = rawToken.split(' ');
+      const result = await this.token.verify(token);
+      return result;
+    } catch (e) {
+      throw new CustomError(400, 'Token inválido');
+    }
   }
 };

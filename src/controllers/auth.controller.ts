@@ -9,6 +9,7 @@ export class Controller {
 
     this.login = this.login.bind(this);
     this.register = this.register.bind(this);
+    this.verify = this.verify.bind(this);
   };
 
   public async login(req: Request, res: Response, next: NextFunction) {
@@ -25,6 +26,16 @@ export class Controller {
     try {
       const { username, email, password } = req.body;
       const result = await this.service.register(username, email, password);
+      res.status(201).json(result);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  public async verify(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { authorization } = req.headers;
+      const result = await this.service.verify(String(authorization));
       res.status(201).json(result);
     } catch (e) {
       next(e);

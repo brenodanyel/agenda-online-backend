@@ -1,4 +1,4 @@
-import { body } from 'express-validator';
+import { body, header } from 'express-validator';
 import { ValidatorMiddleware } from './validator.middleware';
 
 export class Middleware {
@@ -32,6 +32,13 @@ export class Middleware {
       .bail()
       .isLength({ min: 4, max: 35 }).withMessage('O campo "password" deve ter entre 4 e 35 caracteres')
       .trim(),
+    ValidatorMiddleware,
+  ];
+
+  static verify = [
+    header('authorization')
+      .isString().withMessage('O campo "token" deve ser uma string')
+      .bail(),
     ValidatorMiddleware,
   ];
 }

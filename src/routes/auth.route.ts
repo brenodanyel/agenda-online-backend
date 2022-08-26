@@ -11,3 +11,6 @@ router.route('/login')
 
 router.route('/register')
   .post(Middleware.register, controller.register);
+
+router.route('/verify')
+  .get(Middleware.verify, controller.verify);
