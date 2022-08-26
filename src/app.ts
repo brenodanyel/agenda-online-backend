@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import { ErrorMiddleware } from './helpers/error';
 
 export class App {
@@ -7,6 +8,7 @@ export class App {
   constructor() {
     this.app = express();
     this.app.use(express.json());
+    this.app.use(cors());
     this.app.get('/', (_, res) => res.send('Hello World'));
   }
 
