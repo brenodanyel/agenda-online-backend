@@ -37,4 +37,27 @@ export class Service {
       user: userWithoutPassword,
     };
   };
+
+  public async register(username: string, email: string, rawPassword: string) {
+    const user = await this.model.user.findFirst({ where: { OR: [{ username }, { email }] } });
+
+    if (user) {
+      throw new CustomError(409, 'Usuário já cadastrado');
+    }
+
+    const encryptedPassword = await this.passwords.encode(rawPassword);
+
+    const createdUser = await this.model.user.create({
+      data: { username, email, password: encryptedPassword },
+    });
+
+    const { password, ...userWithoutPassword } = createdUser;
+
+    const token = await this.token.generate(userWithoutPassword);
+
+    return {
+      token,
+      user: userWithoutPassword,
+    };
+  }
 };

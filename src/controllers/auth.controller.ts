@@ -8,6 +8,7 @@ export class Controller {
     this.service = service;
 
     this.login = this.login.bind(this);
+    this.register = this.register.bind(this);
   };
 
   public async login(req: Request, res: Response, next: NextFunction) {
@@ -15,6 +16,16 @@ export class Controller {
       const { username, password } = req.body;
       const result = await this.service.login(username, password);
       res.status(200).json(result);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  public async register(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { username, email, password } = req.body;
+      const result = await this.service.register(username, email, password);
+      res.status(201).json(result);
     } catch (e) {
       next(e);
     }

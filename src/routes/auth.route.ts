@@ -8,3 +8,6 @@ export const router = Router();
 
 router.route('/login')
   .post(Middleware.login, controller.login);
+
+router.route('/register')
+  .post(Middleware.register, controller.register);
