@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  backend:
+    build: .
+    container_name: backend
+    command: npm run dev
+    volumes:
+      - ./:/app
+    ports:
+      - "3001:3001"
+    depends_on:
+      - db
+  db:
+    container_name: db
+    image: postgres:14
+    environment:
+      POSTGRES_USER: "agenda"
+      POSTGRES_PASSWORD: "123456"
+      POSTGRES_DB: "agenda"
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+volumes:
+  postgres:
