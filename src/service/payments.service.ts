@@ -1,15 +1,12 @@
 import { PrismaClient } from '@prisma/client';
 import { Client } from '../../prisma';
 import { CustomError } from '../helpers/error';
-import { Token } from '../helpers/token';
 
 export class Service {
   private model: PrismaClient;
-  private token: Token;
 
-  constructor(model = Client, token = new Token()) {
+  constructor(model = Client) {
     this.model = model;
-    this.token = token;
   };
 
   public async findByUser(id: string) {
