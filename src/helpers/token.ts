@@ -20,4 +20,9 @@ export class Token {
   public async verify(token: string) {
     return jwt.verify(token, this.key) as TokenType;
   };
+
+  static extract(authorization: string) {
+    const [, token] = authorization.split(' ');
+    return token;
+  }
 }

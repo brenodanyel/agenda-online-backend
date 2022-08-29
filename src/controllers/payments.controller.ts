@@ -18,8 +18,7 @@ export class Controller {
 
   public async findByUser(req: Request, res: Response, next: NextFunction) {
     try {
-      const { authorization } = req.headers;
-      const [, token] = String(authorization).split(' ');
+      const token = Token.extract(String(req.headers.authorization));
       const { user } = await this.token.verify(token);
       const result = await this.service.findByUser(user.id);
       res.status(200).json(result);
@@ -34,8 +33,7 @@ export class Controller {
     next: NextFunction
   ) {
     try {
-      const { authorization } = req.headers;
-      const [, token] = String(authorization).split(' ');
+      const token = Token.extract(String(req.headers.authorization));
       const { user } = await this.token.verify(token);
       const result = await this.service.createByUser({ ...req.body, userId: user.id });
       res.status(201).json(result);
@@ -50,8 +48,7 @@ export class Controller {
     next: NextFunction,
   ) {
     try {
-      const { authorization } = req.headers;
-      const [, token] = String(authorization).split(' ');
+      const token = Token.extract(String(req.headers.authorization));
       const { user } = await this.token.verify(token);
       await this.service.deleteByUser(user.id, req.params.id);
       res.status(204).end();
@@ -66,8 +63,7 @@ export class Controller {
     next: NextFunction
   ) {
     try {
-      const { authorization } = req.headers;
-      const [, token] = String(authorization).split(' ');
+      const token = Token.extract(String(req.headers.authorization));
       const { user } = await this.token.verify(token);
       const result = await this.service.updateByUser(user.id, req.params.id, req.body);
       res.status(200).json(result);
