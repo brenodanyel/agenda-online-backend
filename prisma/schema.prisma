@@ -19,3 +19,13 @@ model User {
 
   @@map("users")
 }
+
+model Payments {
+  id           String   @id @default(uuid())
+  customer     String
+  date         DateTime
+  price        Int
+  installments Int
+
+  @@map("payments")
+}
