@@ -7,6 +7,7 @@ const data: Payments[] = [
     date: new Date(),
     installments: 5,
     price: 500,
+    userId: '1',
   },
   {
     id: '2',
@@ -14,6 +15,7 @@ const data: Payments[] = [
     date: new Date(),
     installments: 10,
     price: 250,
+    userId: '1',
   },
 ];
 
