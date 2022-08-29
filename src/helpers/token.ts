@@ -2,6 +2,14 @@ import jwt from 'jsonwebtoken';
 
 const { JWT_KEY = "qualquer senha" } = process.env;
 
+type TokenType = {
+  user: {
+    id: string;
+    username: string;
+    email: string;
+  };
+};
+
 export class Token {
   private key = JWT_KEY;
 
@@ -10,6 +18,6 @@ export class Token {
   }
 
   public async verify(token: string) {
-    return jwt.verify(token, this.key);
+    return jwt.verify(token, this.key) as TokenType;
   };
 }
