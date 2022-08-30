@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "prestart": "prisma generate",
-    "start": "ts-node src/index",
+    "start": "tsc && node out/src/index.js",
     "predev": "prisma generate",
     "dev": "ts-node-dev --respawn --transpile-only --exit-child src/index",
     "seed": "ts-node prisma/seed.ts",
