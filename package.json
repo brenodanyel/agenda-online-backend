@@ -10,7 +10,7 @@
     "predev": "prisma generate",
     "dev": "ts-node-dev --respawn --transpile-only --exit-child src/index",
     "seed": "ts-node prisma/seed.ts",
-    "test": "nyc mocha"
+    "test": "mocha --require ts-node/register src/__tests__/**/*.{test,spec}.ts --exit"
   },
   "keywords": [],
   "author": "",
