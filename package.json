@@ -4,10 +4,9 @@
   "description": "",
   "main": "out/src/index.js",
   "scripts": {
-    "prestart": "prisma generate && prisma db push --preview-feature",
+    "prestart": "prisma generate && prisma db push",
     "start": "node out/src/index.js",
     "build": "tsc",
-    "postinstall": "npm run build",
     "predev": "prisma generate",
     "dev": "ts-node-dev --respawn --transpile-only --exit-child src/index",
     "seed": "ts-node prisma/seed.ts",
