@@ -1,5 +1,5 @@
 import { body, header } from 'express-validator';
-import { ValidatorMiddleware } from './validator.middleware';
+import { ValidatorMiddleware } from '../../middlewares/validator.middleware';
 
 export class Middleware {
   static findByUser = [
