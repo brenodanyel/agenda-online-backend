@@ -1,18 +1,16 @@
-import { Request, Response, NextFunction } from 'express';
-import { Service } from '../service/auth.service';
+import { RequestHandler } from 'express';
+import { Service } from './auth.service';
 
 export class Controller {
   service: Service;
 
   constructor(service = new Service()) {
     this.service = service;
-
-    this.login = this.login.bind(this);
-    this.register = this.register.bind(this);
-    this.verify = this.verify.bind(this);
   };
 
-  public async login(req: Request, res: Response, next: NextFunction) {
+  public login: RequestHandler<
+    {}, {}, { username: string, password: string; }
+  > = async (req, res, next) => {
     try {
       const { username, password } = req.body;
       const result = await this.service.login(username, password);
@@ -20,9 +18,11 @@ export class Controller {
     } catch (e) {
       next(e);
     }
-  }
+  };
 
-  public async register(req: Request, res: Response, next: NextFunction) {
+  public register: RequestHandler<
+    {}, {}, { username: string, email: string, password: string; }
+  > = async (req, res, next) => {
     try {
       const { username, email, password } = req.body;
       const result = await this.service.register(username, email, password);
@@ -30,15 +30,18 @@ export class Controller {
     } catch (e) {
       next(e);
     }
-  }
+  };
 
-  public async verify(req: Request, res: Response, next: NextFunction) {
+  public verify: RequestHandler<
+    {}, {}, {}
+  > = async (req, res, next) => {
     try {
       const { authorization } = req.headers;
-      const result = await this.service.verify(String(authorization));
+      const [, token] = String(authorization).split(' ');
+      const result = await this.service.verify(token);
       res.status(201).json(result);
     } catch (e) {
       next(e);
     }
-  }
+  };
 }
