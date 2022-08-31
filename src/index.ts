@@ -1,12 +1,12 @@
 import 'dotenv/config';
 import { App } from './app';
 
-import { router as auth } from './routes/auth.route';
-import { router as payments } from './routes/payments.route';
+import { Router as Auth } from './routes/auth/auth.route';
+import { Router as Payments } from './routes/payments/payments.route';
 
 const app = new App();
 
-app.addRoute('/auth', auth);
-app.addRoute('/payments', payments);
+app.addRoute('/auth', new Auth().router);
+app.addRoute('/payments', new Payments().router);
 
 app.listen(Number(process.env.PORT) || 3001);
