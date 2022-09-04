@@ -1,21 +1,17 @@
-import { UsersModel } from '../../../prisma';
 import { CustomError } from '../../helpers/error';
 import { Token } from '../../helpers/token';
 import { Passwords } from '../../helpers/password';
+import { Repository as AuthRepository } from './auth.repository';
 
 export class Service {
   constructor(
-    private usersModel = UsersModel,
+    private authRepository = AuthRepository,
     private passwords = new Passwords(),
     private token = new Token(),
-  ) {
-    this.usersModel = usersModel;
-  };
+  ) { }
 
   public async login(username: string, rawPassword: string) {
-    const user = await this.usersModel.findFirst({ where: { username } });
-
-    console.log({ user });
+    const user = await this.authRepository.findFirst({ where: { username } });
 
     if (!user) {
       throw new CustomError(404, 'Usuário ou senha incorreta');
@@ -38,7 +34,7 @@ export class Service {
   };
 
   public async register(username: string, email: string, rawPassword: string) {
-    const foundUser = await this.usersModel.findFirst({ where: { OR: [{ username }, { email }] } });
+    const foundUser = await this.authRepository.findFirst({ where: { OR: [{ username }, { email }] } });
 
     if (foundUser) {
       throw new CustomError(409, 'Usuário já cadastrado');
@@ -46,7 +42,7 @@ export class Service {
 
     const encryptedPassword = await this.passwords.encode(rawPassword);
 
-    const user = await this.usersModel.create({
+    const user = await this.authRepository.create({
       data: { username, email, password: encryptedPassword },
       select: { password: false },
     });
