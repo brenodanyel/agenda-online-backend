@@ -10,7 +10,8 @@
     "predev": "prisma generate",
     "dev": "ts-node-dev --respawn --transpile-only --exit-child src/index",
     "seed": "ts-node prisma/seed.ts",
-    "test": "mocha --require ts-node/register src/__tests__/**/*.{test,spec}.ts --exit"
+    "test": "mocha --require ts-node/register src/__tests__/**/*.{test,spec}.ts --exit",
+    "test:coverage": "nyc npm run test"
   },
   "keywords": [],
   "author": "",
@@ -30,6 +31,8 @@
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "@types/jsonwebtoken": "^8.5.9",
+    "@types/mocha": "^9.1.1",
+    "@types/sinon": "^10.0.13",
     "chai": "^4.3.6",
     "chai-http": "^4.3.0",
     "mocha": "^10.0.0",
