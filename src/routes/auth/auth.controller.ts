@@ -39,7 +39,7 @@ export class Controller {
     try {
       const token = Token.extract(String(req.headers.authorization));
       const result = await this.service.verify(token);
-      res.status(201).json(result);
+      res.status(200).json(result);
     } catch (e) {
       next(e);
     }
