@@ -1,18 +1,16 @@
 import { Prisma } from '@prisma/client';
 import { CustomError } from '../../helpers/error';
-import { UsersModel, PaymentsModel } from '../../../prisma';
+import { Repository as AuthRepository } from '../auth/auth.repository';
+import { Repository as PaymentsRepository } from '../payments/payments.repository';
 
 export class Service {
-  // private usersModel: typeof UsersModel;
-  // private paymentsModel: typeof PaymentsModel;
-
   constructor(
-    private usersModel = UsersModel,
-    private paymentsModel = PaymentsModel,
+    private authModel = AuthRepository,
+    private paymentsModel = PaymentsRepository,
   ) { };
 
   public async findByUser(id: string) {
-    const user = await this.usersModel.findFirst({ where: { id } });
+    const user = await this.authModel.findFirst({ where: { id } });
 
     if (!user) {
       throw new CustomError(404, 'Usuário inválido');
