@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express';
 import { Service } from './auth.service';
+import { Token } from '../../helpers/token';
 
 export class Controller {
   service: Service;
@@ -36,8 +37,7 @@ export class Controller {
     {}, {}, {}
   > = async (req, res, next) => {
     try {
-      const { authorization } = req.headers;
-      const [, token] = String(authorization).split(' ');
+      const token = Token.extract(String(req.headers.authorization));
       const result = await this.service.verify(token);
       res.status(201).json(result);
     } catch (e) {
