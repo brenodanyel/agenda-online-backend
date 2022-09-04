@@ -3,6 +3,11 @@
   "extension": [
     ".ts"
   ],
+  "exclude": [
+    "src/app.ts",
+    "src/index.ts",
+    "src/__tests__"
+  ],
   "include": [
     "src"
   ]
