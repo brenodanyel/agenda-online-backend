@@ -44,7 +44,12 @@ export class Service {
 
     const user = await this.authRepository.create({
       data: { username, email, password: encryptedPassword },
-      select: { password: false },
+      select: {
+        password: false,
+        email: true,
+        id: true,
+        username: true,
+      },
     });
 
     const token = await this.token.generate({ user });
