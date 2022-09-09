@@ -7,7 +7,7 @@ export class CodeCache {
 
   public set(key: string, value: string) {
     this.cache[key] = value;
-    setTimeout(this.remove, 60000, key);
+    setTimeout(() => this.remove(key), 60000);
   };
 
   public get(key: string) {
