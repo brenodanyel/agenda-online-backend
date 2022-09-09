@@ -17,5 +17,8 @@ export class Router {
 
     this.router.route('/password/send')
       .post(Middleware.sendPasswordResetCode, controller.sendPasswordResetCode);
+
+    this.router.route('/password/reset')
+      .post(Middleware.resetPassword, controller.resetPassword);
   }
 }

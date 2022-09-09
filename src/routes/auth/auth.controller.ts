@@ -56,4 +56,16 @@ export class Controller {
       next(e);
     }
   };
+
+  public resetPassword: RequestHandler<
+    {}, {}, { username: string; password: string, code: string; }
+  > = async (req, res, next) => {
+    try {
+      const { username, password, code } = req.body;
+      const user = await this.service.resetPassword(username, password, code);
+      res.status(200).json(user);
+    } catch (e) {
+      next(e);
+    }
+  };
 }

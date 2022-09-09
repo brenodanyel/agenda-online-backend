@@ -50,4 +50,23 @@ export class Middleware {
       .bail(),
     ValidatorMiddleware,
   ];
+
+  static resetPassword = [
+    body('username')
+      .isString().withMessage('O campo "username" deve ser uma string')
+      .bail()
+      .isLength({ min: 5 }).withMessage('O campo "username" deve ter pelo menos 5 caracteres')
+      .bail(),
+    body('password')
+      .isString().withMessage('O campo "password" deve ser uma string')
+      .bail()
+      .isLength({ min: 4, max: 35 }).withMessage('O campo "password" deve ter entre 4 e 35 caracteres')
+      .bail(),
+    body('code')
+      .isString().withMessage('O campo "code" deve ser uma string')
+      .bail()
+      .isLength({ min: 3 }).withMessage('O campo "code" deve ter pelo menos 3 caracteres')
+      .bail(),
+    ValidatorMiddleware,
+  ];
 }

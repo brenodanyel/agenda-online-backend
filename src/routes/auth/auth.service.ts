@@ -84,4 +84,34 @@ export class Service {
 
     this.cache.set(username, code);
   }
+
+  public async resetPassword(username: string, rawPassword: string, code: string) {
+    const foundUser = await this.authRepository.findFirst({ where: { username } });
+
+    if (!foundUser) {
+      throw new CustomError(404, 'Usuário não encontrado');
+    }
+
+    const correctCode = this.cache.get(username);
+
+    if (code != correctCode) {
+      throw new CustomError(401, 'Código inválido');
+    }
+
+    const encryptedPassword = await this.passwords.encode(rawPassword);
+
+    const user = await this.authRepository.update({
+      where: { id: foundUser.id },
+      data: { password: encryptedPassword },
+      select: {
+        email: true,
+        id: true,
+        username: true,
+      }
+    });
+
+    this.cache.remove(username);
+
+    return user;
+  }
 };
