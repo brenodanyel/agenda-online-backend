@@ -4,6 +4,7 @@ import { Passwords } from '../../helpers/password';
 import { Repository as AuthRepository } from './auth.repository';
 import { Mailer } from '../../helpers/mailer';
 import { CodeCache } from '../../helpers/code_cache';
+import * as math from '../../helpers/math';
 
 export class Service {
   constructor(
@@ -83,7 +84,7 @@ export class Service {
       throw new CustomError(409, 'Um código já foi enviado para este usuário, aguarde até 60 segundos para enviar um novo.');
     }
 
-    const code = String(Math.ceil(Math.random() * 10000));
+    const code = String(math.randomIntFromInterval(1000, 9999));
     const str = `Código de recuperação: ${code}`;
 
     await this.mailer.sendMail(user.email, 'Recuperação de senha', str);
