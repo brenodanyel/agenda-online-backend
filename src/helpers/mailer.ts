@@ -6,7 +6,11 @@ export class Mailer {
   constructor(
     private transporter = mailer.createTransport({
       service,
-      auth: { user, pass }
+      auth: { user, pass },
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      ignoreTLS: true,
     })
   ) { }
 
