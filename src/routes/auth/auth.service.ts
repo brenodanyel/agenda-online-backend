@@ -77,6 +77,12 @@ export class Service {
       throw new CustomError(404, 'Usuário não encontrado');
     }
 
+    const correctCode = this.cache.get(username);
+
+    if (correctCode) {
+      throw new CustomError(409, 'Um código já foi enviado para este usuário, aguarde até 60 segundos para enviar um novo.');
+    }
+
     const code = String(Math.ceil(Math.random() * 10000));
     const str = `Código de recuperação: ${code}`;
 
