@@ -44,4 +44,16 @@ export class Controller {
       next(e);
     }
   };
+
+  public sendPasswordResetCode: RequestHandler<
+    {}, {}, { username: string; }
+  > = async (req, res, next) => {
+    try {
+      const { username } = req.body;
+      await this.service.sendPasswordResetCode(username);
+      res.status(200).send();
+    } catch (e) {
+      next(e);
+    }
+  };
 }

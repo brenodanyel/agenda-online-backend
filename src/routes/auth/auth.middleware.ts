@@ -41,4 +41,13 @@ export class Middleware {
       .bail(),
     ValidatorMiddleware,
   ];
+
+  static sendPasswordResetCode = [
+    body('username')
+      .isString().withMessage('O campo "username" deve ser uma string')
+      .bail()
+      .isLength({ min: 5 }).withMessage('O campo "username" deve ter pelo menos 5 caracteres')
+      .bail(),
+    ValidatorMiddleware,
+  ];
 }

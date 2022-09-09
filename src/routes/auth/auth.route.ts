@@ -14,5 +14,8 @@ export class Router {
 
     this.router.route('/verify')
       .get(Middleware.verify, controller.verify);
+
+    this.router.route('/password/send')
+      .post(Middleware.sendPasswordResetCode, controller.sendPasswordResetCode);
   }
 }

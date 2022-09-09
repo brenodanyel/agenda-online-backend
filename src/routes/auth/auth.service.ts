@@ -2,12 +2,16 @@ import { CustomError } from '../../helpers/error';
 import { Token } from '../../helpers/token';
 import { Passwords } from '../../helpers/password';
 import { Repository as AuthRepository } from './auth.repository';
+import { Mailer } from '../../helpers/mailer';
+import { CodeCache } from '../../helpers/code_cache';
 
 export class Service {
   constructor(
     private authRepository = AuthRepository,
     private passwords = new Passwords(),
     private token = new Token(),
+    private mailer = new Mailer(),
+    private cache = new CodeCache(),
   ) { }
 
   public async login(username: string, rawPassword: string) {
@@ -64,5 +68,20 @@ export class Service {
     } catch (e) {
       throw new CustomError(400, 'Token inválido');
     }
+  }
+
+  public async sendPasswordResetCode(username: string) {
+    const user = await this.authRepository.findFirst({ where: { username } });
+
+    if (!user) {
+      throw new CustomError(404, 'Usuário não encontrado');
+    }
+
+    const code = String(Math.ceil(Math.random() * 10000));
+    const str = `Código de recuperação: ${code}`;
+
+    await this.mailer.sendMail(user.email, 'Recuperação de senha', str);
+
+    this.cache.set(username, code);
   }
 };
