@@ -12,12 +12,13 @@ export class Controller {
   };
 
   public findByUser: RequestHandler<
-    {}, {}, {}
+    {}, {}, {}, { startDate?: Date, endDate?: Date; }
   > = async (req, res, next) => {
     try {
       const token = Token.extract(String(req.headers.authorization));
+      const { startDate, endDate } = req.query;
       const { user } = await this.token.verify(token);
-      const result = await this.service.findByUser(user.id);
+      const result = await this.service.findByUser(user.id, startDate, endDate);
       res.status(200).json(result);
     } catch (e) {
       next(e);
