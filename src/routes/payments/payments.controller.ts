@@ -25,13 +25,13 @@ export class Controller {
   };
 
   public createByUser: RequestHandler<
-    {}, {}, { customer: string; installments: number; price: number; }
+    {}, {}, { customer: string; date: Date, installments: number; price: number; }
   > = async (req, res, next) => {
     try {
       const token = Token.extract(String(req.headers.authorization));
       const { user } = await this.token.verify(token);
-      const { customer, installments, price } = req.body;
-      const result = await this.service.createByUser({ customer, installments, price, userId: user.id });
+      const { customer, date, installments, price } = req.body;
+      const result = await this.service.createByUser({ customer, date, installments, price, userId: user.id });
       res.status(201).json(result);
     } catch (e) {
       next(e);
@@ -52,13 +52,13 @@ export class Controller {
   };
 
   public updateByUser: RequestHandler<
-    { id: string; }, {}, { customer: string; installments: number; price: number; }
+    { id: string; }, {}, { customer: string; date: Date, installments: number; price: number; }
   > = async (req, res, next) => {
     try {
       const token = Token.extract(String(req.headers.authorization));
       const { user } = await this.token.verify(token);
-      const { customer, installments, price } = req.body;
-      const result = await this.service.updateByUser(user.id, req.params.id, { customer, installments, price });
+      const { customer, date, installments, price } = req.body;
+      const result = await this.service.updateByUser(user.id, req.params.id, { customer, date, installments, price });
       res.status(200).json(result);
     } catch (e) {
       next(e);
